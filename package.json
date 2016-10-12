@@ -1,0 +1,28 @@
+{
+  "name": "node-starter",
+  "version": "1.0.0",
+  "description": "A NodeJS starter application to try out on Runnable.io",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RunnableDemo/node-starter.git"
+  },
+  "keywords": [
+    "gulp",
+    "react",
+    "browserify",
+    "ES6",
+    "Runnable",
+    "docker"
+  ],
+  "scripts": {
+    "start": "node index.js",
+    "test": "standard --verbose ./**/*.js"
+  },
+  "author": "Runnable, Inc.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RunnableDemo/node-starter/issues"
+  },
+  "homepage": "https://github.com/RunnableDemo/node-starter#readme"
+}
