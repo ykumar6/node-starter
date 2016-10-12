@@ -16,13 +16,15 @@
     "docker"
   ],
   "scripts": {
-    "start": "node index.js",
-    "test": "standard --verbose ./**/*.js"
+    "start": "node index.js"
   },
   "author": "Runnable, Inc.",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/RunnableDemo/node-starter/issues"
   },
-  "homepage": "https://github.com/RunnableDemo/node-starter#readme"
+  "homepage": "https://github.com/RunnableDemo/node-starter#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }

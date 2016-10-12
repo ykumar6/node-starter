@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Runnable Demo Application</title>
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="content">
+    </div>
+    <script type="text/babel">
+      var git = {}
+
+      class App extends React.Component {
+
+        constructor (props) {
+          super(props)
+          this.state = {
+            lastCommitAuthor: 'tosih',
+            lastCommitMessage:' Initial adding of README and images.',
+            lastCommitTime: '2016-10-12 12:00:05 -0700',
+            name: 'master',
+            remoteOriginUrl: 'git@github.com:RunnableDemo/node-starter.git',
+            sHA: 'b891edd41e42b6f00ebb8f79889beea39acaa7be',
+            shortSHA: 'b891edd',
+            tag: 'b891edd41e42b6f00ebb8f79889beea39acaa7be',
+            user: 'tosih'
+          }
+        }
+
+        componentWillMount () {
+          fetch('/git', { method: 'get' })
+            .then((res) => { 
+              return res.json()
+            })
+            .then((data) => {
+              this.setState(data)
+            })
+            .catch((err) => {
+              console.log('Error: ' + err)
+            })
+        }
+
+        render () {
+          return (
+            <div>
+              <section className='splash'>
+                <div className='content'>
+                  <h2>Hello World!</h2>
+                  <h4>Your web application is running!</h4>
+                  <p>
+                    Make sure to <b>commit</b> or add a <b>branch</b> to see your changes show up below.
+                  </p>
+                </div>
+              </section>
+              <section className='info'>
+                <p>Current branch: <b>{ this.state.name }</b></p>
+                <p>Latest commit: <b>{ this.state.shortSHA }</b></p>
+                <p>Last commit author: <b>{ this.state.lastCommitAuthor }</b></p>
+              </section>
+            </div>)
+        }
+
+      }
+
+      ReactDOM.render(
+        (<App />), document.getElementById('content')
+      )
+    </script>
+  </body>
+</html>
