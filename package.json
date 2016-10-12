@@ -8,9 +8,10 @@
     "url": "git+https://github.com/RunnableDemo/node-starter.git"
   },
   "keywords": [
-    "gulp",
     "react",
-    "browserify",
+    "babel",
+    "express",
+    "nodejs",
     "ES6",
     "Runnable",
     "docker"
@@ -25,6 +26,6 @@
   },
   "homepage": "https://github.com/RunnableDemo/node-starter#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "4.14.0"
   }
 }
