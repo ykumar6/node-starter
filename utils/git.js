@@ -7,11 +7,9 @@ module.exports = () => {
     'name': ['rev-parse', '--abbrev-ref', 'HEAD'],
     'sHA': ['rev-parse', 'HEAD'],
     'shortSHA': ['rev-parse', '--short', 'HEAD'],
-    'user': ['config', '--global', 'user.name'],
     'lastCommitTime': ['log', '--format="%ai"', '-n1', 'HEAD'],
     'lastCommitMessage': ['log', '--format="%B"', '-n1', 'HEAD'],
     'lastCommitAuthor': ['log', '--format="%aN"', '-n1', 'HEAD'],
-    'tag': ['describe', '--always', '--abbrev=0'],
     'remoteOriginUrl': ['config', '--get-all', 'remote.origin.url']
   }
 
