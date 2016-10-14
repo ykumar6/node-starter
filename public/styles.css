@@ -35,6 +35,12 @@ section h4 {
   padding: 0;
 }
 
+img {
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+}
+
 .info {
   padding: 0;
   min-height: 0;
