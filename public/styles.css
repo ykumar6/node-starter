@@ -39,11 +39,6 @@ section h4 {
   background: rgba(249,249,249,0.5);
 }
 
-.splash {
-  background: url(../images/runnabear-jumping.png) no-repeat;
-  background-position: 50% 70%;
-}
-
 .info {
   padding: 0;
   min-height: 0;
