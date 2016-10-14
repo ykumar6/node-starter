@@ -35,10 +35,6 @@ section h4 {
   padding: 0;
 }
 
-.content {
-  background: rgba(249,249,249,0.5);
-}
-
 .info {
   padding: 0;
   min-height: 0;
