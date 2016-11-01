@@ -32,7 +32,7 @@
 
         componentWillMount () {
           fetch('/git', { method: 'get' })
-            .then((res) => { 
+            .then((res) => {
               return res.json()
             })
             .then((data) => {
@@ -47,20 +47,18 @@
           return (
             <div>
               <section>
-                <h2>Hello World!</h2>
-                <h4>Your web application is running!</h4>
-                <p>
-                  Make sure to <b>commit</b> or add a <b>branch</b> to see your changes show up below.
-                </p>
+                <h1>Hello World!</h1>
+                <h2>Your web application is running!</h2>
+                <p>Make a commit to see your changes show up below.</p>
               </section>
-              <section className='info'>
+              <section>
                 <p>Current branch: <b>{ this.state.name }</b></p>
-                <p>Latest commit: <b>{ this.state.shortSHA }</b></p>
-                <p>Last commit author: <b>{ this.state.lastCommitAuthor }</b></p>
+                <p>Commit: <b>{ this.state.shortSHA }</b></p>
+                <p>Commit author: <b>{ this.state.lastCommitAuthor }</b></p>
               </section>
-            </div>)
+            </div>
+          )
         }
-
       }
 
       ReactDOM.render(
