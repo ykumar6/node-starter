@@ -17,7 +17,8 @@
     "docker"
   ],
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "migrate": "echo 'No migrations to run.'"
   },
   "author": "Runnable, Inc.",
   "license": "MIT",
