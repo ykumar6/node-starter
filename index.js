@@ -7,9 +7,9 @@ const bodyParser = require('body-parser')
 const app = express()
 const host = process.env.RUNNABLE_CONTAINER_URL || 'localhost'
 const port = process.env.PORT || 3000
-const mongoHost = process.env.MONGO_HOST || 'mongodb://localhost/todo'
+const mongoHost = process.env.MONGODB_HOST || 'localhost'
 
-mongoose.connect(mongoHost)
+mongoose.connect(`mongodb://${mongoHost}/todo`)
 mongoose.connection.on('error', () => {
   console.log('ERROR: Unable to connect to MongoDB.')
 })
