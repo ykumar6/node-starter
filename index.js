@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
 
 const bodyParser = require('body-parser')
 
@@ -13,7 +14,7 @@ mongoose.connection.on('error', () => {
   console.log('ERROR: Unable to connect to MongoDB.')
 })
 
-todos = require('./todos');
+const todos = require('./todos')
 
 function logErrors (err, req, res, next) {
   console.error(err.stack)
@@ -36,8 +37,8 @@ app.use(errorHandler)
 
 // Routes
 app.use('/', express.static('public'))
-app.get('/api/todos', todos.findAll)
-app.get('/api/todos/:id', todos.findById)
+app.get('/api/todos', todos.all)
+app.get('/api/todos/:id', todos.one)
 app.post('/api/todos', todos.create)
 app.put('/api/todos/:id', todos.update)
 app.delete('/api/todos/:id', todos.delete)

@@ -118,14 +118,14 @@
     class AddTodoField extends React.Component {
       constructor (props) {
         super(props)
-        this.onSubmit = this.onSubmit.bind(this)
+        this.saveTodo = this.saveTodo.bind(this)
       }
 
       componentDidMount () {
         this.refs.todo.focus()
       }
 
-      onSubmit (event) {
+      saveTodo (event) {
         event.preventDefault()
         var input = this.refs.todo
         if (input.value !== '') {
@@ -136,12 +136,13 @@
 
       render () {
         return (
-          <form className="new_todo" onSubmit={this.onSubmit}>
+          <form className="new_todo" onSubmit={this.saveTodo}>
             <input
               className="todo-list-item input"
               ref="todo"
               type='text'
               placeholder='Add a task'
+              onBlur={this.saveTodo}
             />
           </form>
         )
