@@ -17,6 +17,7 @@
     "docker"
   ],
   "scripts": {
+    "prestart": "npm run migrate",
     "start": "node index.js",
     "migrate": "echo 'No migrations to run.'"
   },
