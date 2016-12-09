@@ -2,68 +2,181 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Runnable Starter Application</title>
-    <link rel="icon" type="image/png" href="../images/favicon.png">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
-    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <title>Todo List</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="stylesheet" media="all" href="styles.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.19.0/babel.min.js"></script>
   </head>
   <body>
-    <div id="content">
-    </div>
+    <div id="content" class="container"></div>
     <script type="text/babel">
-      var git = {}
+     class App extends React.Component {
+      constructor (props) {
+        super(props)
+        this.state = {
+          todos: []
+        }
+        this.addTodo = this.addTodo.bind(this)
+        this.removeTodo = this.removeTodo.bind(this)
+      }
 
-      class App extends React.Component {
+      componentDidMount () {
+        fetch(this.props.source)
+          .then((res) => {
+            return res.json()
+          })
+          .then((data) => {
+            var todos = {}
+            data.map(function (todo) {
+              todos[todo.id] = todo
+            })
+            this.setState({ todos: todos })
+          })
+          .catch((err) => console.log(err))
+      }
 
-        constructor (props) {
-          super(props)
-          this.state = {
-            lastCommitAuthor: '...',
-            lastCommitMessage: '...',
-            lastCommitTime: '...',
-            name: '...',
-            remoteOriginUrl: '...',
-            sHA: '...',
-            shortSHA: '...'
-          }
+      addTodo (newTodoValue, callback) {
+        var todos = this.state.todos
+        var newTodo = {
+          value: newTodoValue
         }
 
-        componentWillMount () {
-          fetch('/git', { method: 'get' })
-            .then((res) => {
-              return res.json()
+        fetch(this.props.source, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(newTodo)
+        })
+          .then((res) => (res.json()))
+          .then((data) => {
+            todos[data.id] = data;
+            this.setState({ todos: todos }, function () {
+              console.log('added new todo:')
+              console.log(data)
+              if (typeof callback === 'function') {
+                callback(data)
+              }
             })
-            .then((data) => {
-              this.setState(data)
-            })
-            .catch((err) => {
-              console.log('Error: ' + err)
-            })
+          })
+          .catch((err) => console.log(err))
+      }
+
+      removeTodo (id) {
+        console.log('deleting todos[' + id + ']')
+        var deleteTarget = this.state.todos[id]
+        console.log(this.state.todos)
+        if (!deleteTarget) {
+          console.log('no target')
+          return
         }
 
-        render () {
+        fetch(this.props.source + '/' + deleteTarget.id, {
+          method: 'DELETE'
+        })
+          .then((res) => {
+            var todos = this.state.todos
+            delete todos[id]
+            this.setState({ todos: todos })
+          })
+          .catch((err) => console.log(err))
+      }
+
+      render () {
+        var renderedTodos = Object.keys(this.state.todos).map(function (id) {
+          var todo = this.state.todos[id]
           return (
-            <div>
-              <section>
-                <h1>Hello World!</h1>
-                <h2>Your web application is running!</h2>
-                <p>Make a commit to see your changes show up below.</p>
-              </section>
-              <section>
-                <p>Current branch: <b>{ this.state.name }</b></p>
-                <p>Commit: <b>{ this.state.shortSHA }</b></p>
-                <p>Commit author: <b>{ this.state.lastCommitAuthor }</b></p>
-              </section>
-            </div>
+            <Todo key={id}
+              id={todo.id}
+              value={todo.value}
+              deleteCallback={this.removeTodo}
+            />
           )
+        }.bind(this))
+
+        return (
+          <div>
+            <div className="notification">
+              <div className="emoji">🚀</div>
+              <div>
+                <p className="weight-strong">This is your demo app.</p>
+                <p className="small">Each branch gets its own database. Check it out and then head back to Runnable.</p>
+              </div>
+            </div>
+            <h1 className="h1">Todo List</h1>
+            <ul className="todo-list">
+              {renderedTodos}
+              <AddTodoField saveCallback={this.addTodo} />
+            </ul>
+          </div>
+        )
+      }
+    }
+
+    class AddTodoField extends React.Component {
+      constructor (props) {
+        super(props)
+        this.saveTodo = this.saveTodo.bind(this)
+      }
+
+      componentDidMount () {
+        this.refs.todo.focus()
+      }
+
+      saveTodo (event) {
+        event.preventDefault()
+        var input = this.refs.todo
+        if (input.value !== '') {
+          this.props.saveCallback(input.value)
+          input.value = ''
         }
       }
 
-      ReactDOM.render(
-        (<App />), document.getElementById('content')
-      )
+      render () {
+        return (
+          <form className="new_todo" onSubmit={this.saveTodo}>
+            <input
+              className="todo-list-item input"
+              ref="todo"
+              type='text'
+              placeholder='Add a task'
+              onBlur={this.saveTodo}
+            />
+          </form>
+        )
+      }
+    }
+
+    class Todo extends React.Component {
+      constructor (props) {
+        super(props)
+        this.handleClick = this.handleClick.bind(this)
+      }
+
+      handleClick () {
+        this.props.deleteCallback(this.props.id)
+      }
+
+      render () {
+        return <button onClick={this.handleClick}>X</button>
+      }
+
+
+      render () {
+        return (
+          <li className="todo-list-item">
+            <a className="button-complete" onClick={this.handleClick} />
+            {this.props.value}
+          </li>
+        )
+      }
+    }
+
+    ReactDOM.render(
+      (<App source='/api/todos' />), document.getElementById('content')
+    )
     </script>
   </body>
 </html>
