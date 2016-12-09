@@ -11,4 +11,4 @@ ADD . /app/
 EXPOSE 3000
 
 # Run Application
-CMD ["npm start"]
+CMD npm start
